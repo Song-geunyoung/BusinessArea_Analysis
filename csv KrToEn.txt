@@ -1,0 +1,7 @@
+(상권배후지-상주인구)				ResidentPopulation
+(상권배후지-생활인구)				LivingPopulation
+(상권배후지-직장인구)				WorkerPopulation
+(상권배후지-소득소비)				Income
+(상권배후지-점포)_점포수,유사업종수,개업율,폐업률	SimilarBusiness
+(상권배후지-집객시설)				Attraction
+(상권배후지-추정매출)				Sales
