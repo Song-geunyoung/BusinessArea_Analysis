@@ -27,13 +27,13 @@ def Append_Sales(Receive_List, BusinessType):
             Receive_List.append(SalesList[i][:9])
 
 #매출을 0~1 사이로 가중치화
-def weighting(Receive_List):
+def Weighting(Receive_List):
     max = Receive_List[0][8]
     for i in range(len(Receive_List)):
         if(max < Receive_List[i][8]):
             max = Receive_List[i][8]
     for i in range(len(Receive_List)):
-        Receive_List[i][8] = Receive_List[i][8]/max
+        Receive_List[i][8] = Receive_List[i][8]/(max+1)
 
 #NodeList에 csv데이터 추가
 def Append_csvtoList(csvData, NodeList, Receive_List, RefNum):
@@ -44,8 +44,8 @@ def Append_csvtoList(csvData, NodeList, Receive_List, RefNum):
                 NodeList[i].append(Receive_List[j][RefNum])
                 break
 
-#인구Edge 20분할로 나누어 추가
-def Add_Edge_Population(Receive_List, num, BusinessType):
+#기준Edge 20분할로 나누어 추가
+def Add_Edge(Receive_List, num, BusinessType):
     max = min = Receive_List[0][num]
     for i in range(len(Receive_List)):
         if(max < Receive_List[i][num]):
@@ -66,11 +66,23 @@ def Add_Edge_Population(Receive_List, num, BusinessType):
     elif(num==14):
         NodeName = "월소득"
 
+    #추가 가중치 조절 부분
     for i in range(len(Receive_List)):
         for j in range(0,20):
-            if( min+(max-min)/20*(j) <= Receive_List[i][num] and Receive_List[i][num] <= min+(max-min)/20*(j+1) ):
-                GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8])            
+            if( min+(max-min)/20*(j) <= Receive_List[i][num] and Receive_List[i][num] <= min+(max-min)/20*(j+1) and num != 12):
+                    if(num==9):
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
+                    elif(num==10):
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166)
+                    elif(num==11):
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166)
+                    elif(num==13):
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
+                    elif(num==14):
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
 
+            elif( min+(max-min)/20*(j) <= Receive_List[i][num] and Receive_List[i][num] <= min+(max-min)/20*(j+1) and num == 12):
+                GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166 )
 
 #메인----------------------------------------------------------------------------------------------
 
@@ -80,15 +92,15 @@ print("업종을 입력해주세요 : ")
 BusinessType = input()
 
 Append_Sales(NodeList, BusinessType)
-weighting(NodeList)
+Weighting(NodeList)
 Append_csvtoList(LivingPopulation_csv, NodeList, LivingList, 6)
 Append_csvtoList(WorkerPopulation_csv, NodeList, WorkerList, 6)
 Append_csvtoList(ResidentPopulation_csv, NodeList, ResidentList, 6)
 Append_csvtoList(SimilarBusiness_csv, NodeList, SimilarList, 9)
 Append_csvtoList(Attraction_csv, NodeList, AttractionList, 6)
 Append_csvtoList(Income_csv, NodeList, AttractionList, 6)
-print(NodeList)
 
+print(NodeList)
 
 #그래프 생성----------------------------------------------------------------------------------------
 GraphResult = nx.Graph()
@@ -107,7 +119,7 @@ for i in range(0,20):
 
 #LivingPopulation, WorkerPopulation, ResidentPopulation, SimilarBusiness, Attraction, Income 순 엣지 추가
 for i in range(9,15):
-    Add_Edge_Population(NodeList, i, BusinessType)
+    Add_Edge(NodeList, i, BusinessType)
 
 #그래프 형성
-nx.write_gexf(GraphResult, "BusinessArea_Analysis.gexf")
+nx.write_gexf(GraphResult, "BusinessArea_Analysis_WeightedDegree.gexf")
