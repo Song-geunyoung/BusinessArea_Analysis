@@ -71,18 +71,18 @@ def Add_Edge(Receive_List, num, BusinessType):
         for j in range(0,20):
             if( min+(max-min)/20*(j) <= Receive_List[i][num] and Receive_List[i][num] <= min+(max-min)/20*(j+1) and num != 12):
                     if(num==9):
-                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166 )
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
                     elif(num==10):
-                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166)
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166)
                     elif(num==11):
-                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166 )
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
                     elif(num==13):
-                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166 )
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
                     elif(num==14):
-                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166 )
+                        GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
 
             elif( min+(max-min)/20*(j) <= Receive_List[i][num] and Receive_List[i][num] <= min+(max-min)/20*(j+1) and num == 12):
-                GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = 1-Receive_List[i][8]*0.166 )
+                GraphResult.add_edge(Receive_List[i][5] + " " + BusinessType, NodeName + str(j+1), weight = Receive_List[i][8]*0.166 )
 
 #메인----------------------------------------------------------------------------------------------
 
