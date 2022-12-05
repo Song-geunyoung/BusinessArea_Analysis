@@ -98,7 +98,7 @@ Append_csvtoList(WorkerPopulation_csv, NodeList, WorkerList, 6)
 Append_csvtoList(ResidentPopulation_csv, NodeList, ResidentList, 6)
 Append_csvtoList(SimilarBusiness_csv, NodeList, SimilarList, 9)
 Append_csvtoList(Attraction_csv, NodeList, AttractionList, 6)
-Append_csvtoList(Income_csv, NodeList, AttractionList, 6)
+Append_csvtoList(Income_csv, NodeList, IncomeList, 6)
 
 print(NodeList)
 
